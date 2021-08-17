@@ -63,10 +63,21 @@ def Build_cnn_regression_model(input_shape, output_size, neurons, activ_func="li
 def split_data(data: list, ratio=0.9):
     size = len(data)
     train_sample = int(size * ratio)
-    train_dataset = data[: train_sample]
-    test_dataset = data[train_sample:]
+    train_dataset, test_dataset = data[: train_sample], data[train_sample:]
     return np.array(train_dataset), np.array(test_dataset)
 
+
+def mse(label: np.ndarray, predict: np.ndarray):
+    sum_square = (label - predict) ** 2
+    return np.mean(sum_square)
+
+def _pprint(field, output_test, res):
+    total_loss = 0
+    for i in range(len(field)):
+        loss = mse(output_test[:, i], res[:, i])
+        total_loss += loss
+        print(f"Field: {field[i]} Loss: {loss}")
+    print(f"Total Loss MSE: {total_loss}")
 
 def main():
     folder_name = "data/EEM"
@@ -82,19 +93,21 @@ def main():
             if sheet != "18b":
                 row = excel.parse(sheet_name=sheet).values
                 input_data.append(row)
-
+    field = ["TN,", "DTP", "TN", "TP", "pH"]
     output_df = pd.read_excel("data/river_data.xlsx", sheet_name="Data(2018-2020)")
-    output = output_df[["TN,", "DTP", "TN", "TP", "pH"]].values
+    output = output_df[field].values
 
-    train_dataset, test_dataset = split_data(input_data, 0.2)
-
+    train_dataset, test_dataset = split_data(input_data)
     input_data = np.array(input_data)
-    output = np.array(output[:len(train_dataset)])
+    output_train = np.array(output[:len(train_dataset)])
+    output_test = np.array(output[len(train_dataset):len(input_data)])
     my_model = Build_cnn_regression_model((len(train_dataset[0]), len(train_dataset[0][0])), output_size=5, neurons=100)
-    my_model.fit(train_dataset, output, epochs=30, batch_size=1)
-
+    my_model.fit(train_dataset, output_train, epochs=5, batch_size=1)
     res = my_model.predict(test_dataset)
-    print(res)
+    print(output_test, output_test.shape)
+    print(res, res.shape)
+    _pprint(field, output_test, res)
+
 
 
 if __name__ == '__main__':
