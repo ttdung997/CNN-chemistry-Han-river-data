@@ -51,7 +51,7 @@ def build_cnn_regression_model(input_shape, output_size, neurons, activ_func="li
     model.add(Dense(5, activation='linear'))
     model.compile(loss=loss,  # one may use 'mean_absolute_error' as  mean_squared_error
                   optimizer=optimizer,
-                  metrics=[tf.keras.metrics.RootMeanSquaredError(), "accuracy"]  # you can add several if needed
+                  metrics=[tf.keras.metrics.RootMeanSquaredError()]  # you can add several if needed
                   )
     model.summary()
     return model
@@ -93,11 +93,11 @@ def _pprint(field, output_test, res):
 
 def visualize(history, epochs):
     loss_train = history.history['loss']
-    accuracy = history.history['accuracy']
+    # accuracy = history.history['root_mean_squared_error']
     epochs = range(1, epochs + 1)
     plt.plot(epochs, loss_train, 'g', label='Loss')
-    plt.plot(epochs, accuracy, 'b', label='Accuracy')
-    plt.title('Loss and Accuracy')
+    # plt.plot(epochs, accuracy, 'b', label='root_mean_squared_error')
+    plt.title('Loss')
     plt.xlabel('Epochs')
     plt.ylabel('')
     plt.legend()
