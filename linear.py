@@ -15,7 +15,11 @@ from PIL import Image
 import numpy as np
 
 import matplotlib.pyplot as plt
+
+from sklearn.linear_model import LinearRegression
+from sklearn.decomposition import FactorAnalysis
 from sklearn.tree import DecisionTreeRegressor
+
 
 from sklearn.svm import SVR
 from sklearn.pipeline import make_pipeline
@@ -115,27 +119,54 @@ def main():
 		for sheet in sheets:
 			if sheet != "18b":
 				row = excel.parse(sheet_name=sheet).values
-				input_data.append(row)
-				mymax = np.max(row)
-				plt.imsave('image/'+file+sheet+'.png',row)
-				# img = Image.fromarray(row*255/mymax, 'RGB')
-				# img.save('image/'+file+sheet+'.png')
+				input_data.append(np.array(row).flatten())
 
-	quit()
-	field = ["TN,", "DTP", "TN", "TP", "pH"]
+	full_col =['pH', 'DO', 'BOD5', 'CODMn', 'TN', 'TP', 'TOC', 'DOC',
+	 'TN,', 'NH3-N', 'NO3-N', 'DTP', 'PO4-P']
 	output_df = pd.read_excel("data/river_data.xlsx", sheet_name="Data(2018-2020)")
-	output = output_df[field].values
+	
 
+	transformer = FactorAnalysis(n_components=25, random_state=0)
+	input_data = transformer.fit_transform(input_data)
 	train_dataset, test_dataset = split_data(input_data)
 	input_data = np.array(input_data)
-	output_train = np.array(output[:len(train_dataset)])
-	output_test = np.array(output[len(train_dataset):len(input_data)])
-	my_model = Build_cnn_regression_model((len(train_dataset[0]), len(train_dataset[0][0])), output_size=5, neurons=100)
-	my_model.fit(train_dataset, output_train, epochs=5, batch_size=1)
-	res = my_model.predict(test_dataset)
-	print(output_test, output_test.shape)
-	print(res, res.shape)
-	_pprint(field, output_test, res)
+
+
+	for col in full_col:
+		output = output_df[col].values
+		output_train = np.array(output[:len(train_dataset)])
+		output_test = np.array(output[len(train_dataset):len(input_data)])
+		model = LinearRegression()
+
+
+		model.fit(train_dataset,output_train)
+		# print(output_train)
+		prediction = model.predict(test_dataset)
+		print(col)
+		print("*************")
+		print("linear")
+		print(mpe(output_test,prediction))
+
+		print("SVR")
+
+		regr = make_pipeline(StandardScaler(), SVR(C=1.0, epsilon=0.2))
+		regr.fit(train_dataset,output_train)
+		prediction = regr.predict(test_dataset)
+		print(mpe(output_test,prediction))
+
+		print("DTR")
+
+		regr = DecisionTreeRegressor(random_state=0)
+		regr.fit(train_dataset,output_train)
+		prediction = regr.predict(test_dataset)
+		print(mpe(output_test,prediction))
+
+
+		print("_____________________________-")
+
+
+		
+
 
 
 
