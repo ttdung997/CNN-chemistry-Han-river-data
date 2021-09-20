@@ -178,6 +178,7 @@ def main():
 			if sheet != "18b":
 				row = excel.parse(sheet_name=sheet).values
 				input_data.append(row)
+	quit()
 
 	full_col =['pH', 'DO', 'BOD5', 'CODMn', 'TN', 'TP', 'TOC', 'DOC',
 	 'TN,', 'NH3-N', 'NO3-N', 'DTP', 'PO4-P']

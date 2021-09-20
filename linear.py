@@ -24,6 +24,8 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.svm import SVR
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+import seaborn as sns
+
 
 
 def report_evaluation_metrics(y_true, y_pred):
