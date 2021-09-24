@@ -259,9 +259,8 @@ def main():
     # print(add_in.shape)
 
 
-    res = np.concatenate((add_in1,layer_output,add_in2), axis=1)
-    print(res)
-    print(res.shape)
+    res = layer_output
+
 
     att_count = 0
     input_data = []
@@ -273,16 +272,33 @@ def main():
             if sheet != "18b":
                 row = excel.parse(sheet_name=sheet).values
                 input_data.append(row)
-                heat = np.array(row) 
+                heat = np.array(row)
+                print(row.shape)
+                # break
                 scaler = MinMaxScaler()
                 scaler.fit(heat)
                 heat = scaler.transform(heat)
 
-                addon = res[att_count].T.reshape(270,1)*3
+                attention_data = res[att_count]
+                addon = []
+
+                for i in range(0, 90):
+                    addon.append(list(attention_data[i] * attention_data[0:57]))
+                for i in range(15, 105):
+                    addon.append(list(attention_data[i] * attention_data[30:87]))
+                for i in range(38, 128):
+                    addon.append(list(attention_data[i] * attention_data[71:128]))
+                print(len(addon))
+                addon = np.array(addon)
+                addon = addon.reshape((270,57))
+                print(addon.shape)
+                print(heat.shape)
+                print("__________")
                 scaler2 = MinMaxScaler()
                 scaler2.fit(addon)
                 addon = scaler2.transform(addon)
-
+                myre = np.mean(addon)
+                addon =  np.where(addon==0, myre, addon)
                 # print(heat)
                 # print(addon)
 
@@ -291,9 +307,9 @@ def main():
                 hmap  = sns.heatmap(heat, cmap = plt.cm.RdYlBu_r, vmax = 1.25)
 
 
-                plt.title('Heatmap/line/'+file+"-"+sheet+".png");
+                plt.title('Heatmap/point/'+file+"-"+sheet+".png");
                 fig = hmap.get_figure()
-                fig.savefig('Heatmap/line/'+file+"-"+sheet+".png")
+                fig.savefig('Heatmap/point/'+file+"-"+sheet+".png")
                 plt.clf()
 
                 att_count = att_count + 1
