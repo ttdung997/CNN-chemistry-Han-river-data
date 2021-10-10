@@ -117,7 +117,7 @@ def main():
                 # scaler.fit(row)
                 # heat = scaler.transform(row)
                 heat = row
-                hmap  = sns.heatmap(heat, cmap = plt.cm.RdYlBu_r)
+                hmap  = sns.heatmap(heat, cmap = "mako")
                 plt.title('Heatmap/origin2/'+file+"-"+sheet+".png");
                 fig = hmap.get_figure()
                 fig.savefig('Heatmap/origin2/'+file+"-"+sheet+".png")

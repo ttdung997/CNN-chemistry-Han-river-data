@@ -304,12 +304,12 @@ def main():
 
                 heat = heat + heat * addon
 
-                hmap  = sns.heatmap(heat, cmap = plt.cm.RdYlBu_r, vmax = 1.25)
+                hmap  = sns.heatmap(heat, cmap = "mako", vmax = 1.25)
 
 
-                plt.title('Heatmap/point/'+file+"-"+sheet+".png");
+                plt.title('Heatmap/point2/'+file+"-"+sheet+".png");
                 fig = hmap.get_figure()
-                fig.savefig('Heatmap/point/'+file+"-"+sheet+".png")
+                fig.savefig('Heatmap/point2/'+file+"-"+sheet+".png")
                 plt.clf()
 
                 att_count = att_count + 1
