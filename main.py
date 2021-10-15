@@ -113,15 +113,19 @@ def main():
             if sheet != "18b":
                 row = excel.parse(sheet_name=sheet).values
                 input_data.append(row)
+                
+                rdata = np.array(row)
+                rdata = rdata.flatten()
+                
                 # scaler = MinMaxScaler()
                 # scaler.fit(row)
                 # heat = scaler.transform(row)
-                heat = row
-                hmap  = sns.heatmap(heat, cmap = "mako")
-                plt.title('Heatmap/origin2/'+file+"-"+sheet+".png");
-                fig = hmap.get_figure()
-                fig.savefig('Heatmap/origin2/'+file+"-"+sheet+".png")
-                plt.clf()
+                # heat = row
+                # hmap  = sns.heatmap(heat, cmap = "mako")
+                # plt.title('Heatmap/origin2/'+file+"-"+sheet+".png");
+                # fig = hmap.get_figure()
+                # fig.savefig('Heatmap/origin2/'+file+"-"+sheet+".png")
+                # plt.clf()
 
 if __name__ == '__main__':
     main()

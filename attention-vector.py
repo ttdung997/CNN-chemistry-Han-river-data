@@ -173,7 +173,7 @@ class Antirectifier(layers.Layer):
         # return x1
 
 
-def build_RNN_model(inputs, output_size, neurons, activ_func="linear",
+def build_ANFIS_model(inputs, output_size, neurons, activ_func="linear",
     dropout=0.25, loss="mae", optimizer="adam"):
     model = Sequential()
     model.add(Antirectifier(input_shape=inputs.shape))
@@ -450,13 +450,14 @@ def main():
         print(mpe(output_test,prediction))
         svr.append(mpe(output_test,prediction))
 
-        my_model = build_RNN_model(train_dataset, output_size=1, neurons = 100)
+        my_model = build_ANFIS_model(train_dataset, output_size=1, neurons = 100)
         my_model.fit(train_dataset, output_train, 
             epochs=3, batch_size=1, verbose=1, shuffle=True)
 
         prediction = my_model.predict(test_dataset)
         print(mpe(output_test,prediction))
         fuzzy.append(mpe(output_test,prediction))
+
     print(Average(svr))
     print(Average(fuzzy))
 
