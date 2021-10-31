@@ -108,6 +108,12 @@ def visualize(history, epochs):
 def Average(lst):
     return sum(lst) / len(lst)
 
+import numpy as np
+
+def NormalizeData(data):
+    return (data - np.min(data)) / (np.max(data) - np.min(data))
+
+
 
 def main():
     # doc file du lieu va bieu dien duoi dang heatmap
@@ -149,9 +155,33 @@ def main():
                 # sns.set_style("darkgrid")
                 # plt.plot(np.array(rdata))
                 # # fig = plt.get_figure()
-                # plt.savefig('Heatmap/distribute/'+file+"-"+sheet+".png")
+
+                column_sums = [sum([x[i] for x in row]) for i in range(0,len(row[0]))]
+                column_sums = NormalizeData(column_sums)
+
+
+                row_sums = [sum(x) for x in row]
+                row_sums = NormalizeData(row_sums)
+
+
+
+                
+                print(len(column_sums))
+                print(len(row_sums))
+
+
+                plt.plot([i for i in range(0, len(column_sums))],column_sums, label = "Excitation (mm)")
+                plt.plot([i for i in range(0, len(row_sums))],row_sums,  label = "Emission (mm)")
+                plt.legend()
+                # continue
+
+
+                plt.savefig('Heatmap/distribute/'+file+"-"+sheet+".png")
+                plt.clf()
+
                 data1 = rdata[3400:4600]
                 data2 = rdata[4800:7200]
+
 
                 data1.sort()
                 print(data1)
@@ -168,16 +198,38 @@ def main():
                     for j in range(0,len(row[i])):
                         flag = 0
                         if row[i][j] == test:
-                            print(test)
+                            print(row[i][j])
                             flag = 1
                         if row[i][j] == data2[-1]:
-                            print(data2[-1])
+                            print(row[i][j])
                             flag = 1
                        
                         if flag == 1:
-                            row[i][j] = 100
-                        else:
-                            row[i][j] = 0
+                            try:
+                                atem = test
+                                row[i-6][j] = atem*1.3
+                                row[i-5][j] = atem*1.3
+                                row[i-4][j] = atem*1.3
+                                row[i-3][j] = atem*1.3
+                                row[i-2][j] = atem*1.3
+                                row[i-1][j-1] = atem*1.3
+                                row[i-1][j] = atem*1.3
+                                row[i-1][j+1] = atem*1.3
+                                row[i-1][j] = atem*1.3
+                                row[i][j] = atem*1.3
+                                row[i+1][j] = atem*1.3
+                                row[i+1][j-1] = atem*1.3
+                                row[i+1][j] = atem*1.3
+                                row[i+1][j+1] = atem*1.3
+                                row[i+2][j] = atem*1.3
+                                row[i+3][j] = atem*1.3
+                                row[i+4][j] = atem*1.3
+                                row[i+5][j] = atem*1.3
+                                row[i+6][j] = atem*1.3
+                            except:
+                                continue
+                        # else:
+                            # row[i][j] = 0
 
 
                 # scaler = MinMaxScaler()
@@ -185,9 +237,12 @@ def main():
                 # heat = scaler.transform(row)
                 heat = row
                 hmap  = sns.heatmap(heat, cmap = "mako")
-                plt.title('Heatmap/pp/'+file+"-"+sheet+".png");
+                hmap.set_ylabel('Excitation (mm)')
+                hmap.set_xlabel('Emission (mm)')
+                # plt.title('Heatmap/pp/'+file+"-"+sheet+".png");
                 fig = hmap.get_figure()
                 fig.savefig('Heatmap/pp/'+file+"-"+sheet+".png")
+                
                 plt.clf()
 
 if __name__ == '__main__':

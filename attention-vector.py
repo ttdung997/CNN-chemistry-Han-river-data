@@ -54,6 +54,8 @@ class Antirectifier(layers.Layer):
             name="a1",
             trainable=True,
         )
+        
+
         self.b1 = self.add_weight(
             shape=(1 , output_dim),
             initializer=self.initializer,
