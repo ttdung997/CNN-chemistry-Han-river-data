@@ -305,9 +305,11 @@ def main():
                 heat = heat + heat * addon
 
                 hmap  = sns.heatmap(heat, cmap = "mako", vmax = 1.25)
+                hmap.set_ylabel('Excitation (mm)')
+                hmap.set_xlabel('Emission (mm)')
 
 
-                plt.title('Heatmap/point2/'+file+"-"+sheet+".png");
+                # plt.title('Heatmap/point2/'+file+"-"+sheet+".png");
                 fig = hmap.get_figure()
                 fig.savefig('Heatmap/point2/'+file+"-"+sheet+".png")
                 plt.clf()

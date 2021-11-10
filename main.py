@@ -117,15 +117,18 @@ def main():
                 rdata = np.array(row)
                 rdata = rdata.flatten()
                 
-                # scaler = MinMaxScaler()
-                # scaler.fit(row)
-                # heat = scaler.transform(row)
-                # heat = row
-                # hmap  = sns.heatmap(heat, cmap = "mako")
+                scaler = MinMaxScaler()
+                scaler.fit(row)
+                heat = scaler.transform(row)
+                heat = row
+                hmap  = sns.heatmap(heat, cmap = "mako")
+                hmap.set_ylabel('Excitation (mm)')
+                hmap.set_xlabel('Emission (mm)')
+                
                 # plt.title('Heatmap/origin2/'+file+"-"+sheet+".png");
-                # fig = hmap.get_figure()
-                # fig.savefig('Heatmap/origin2/'+file+"-"+sheet+".png")
-                # plt.clf()
+                fig = hmap.get_figure()
+                fig.savefig('Heatmap/origin2/'+file+"-"+sheet+".png")
+                plt.clf()
 
 if __name__ == '__main__':
     main()
