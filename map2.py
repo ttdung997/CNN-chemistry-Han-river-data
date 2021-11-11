@@ -137,6 +137,7 @@ def main():
         sheets = excel.sheet_names
         avg_file  = []
         for sheet in sheets:
+            print("new sheet")
             if sheet != "18b":
                 v1 = []
                 v2 = []
@@ -185,64 +186,100 @@ def main():
 
                 data1.sort()
                 print(data1)
-                test = (data1[-1])
                 data2.sort()
 
                 l = len(rdata)
                 # print(l)
                 rdata.sort()
+                test = rdata[-1]
 
              
                 avg_matrix = []
                 for i in range(0,len(row)):
                     for j in range(0,len(row[i])):
                         flag = 0
-                        if row[i][j] == test:
+                        if row[i][j] == rdata[-1]:
+                            print("PEAK 1")
                             print(row[i][j])
                             flag = test
-                        if row[i][j] == rdata[-1]:
+                            for d1 in range(0,len(row)):
+                                    for d2 in range(0,len(row[d1])):
+                                        if (d1-i)*(d1-i)/25+ (d2-j)*(d2-j) < 10:
+                                            row[d1][d2]= test + test*0.1*(10- (d1-i)*(d1-i)/25+ (d2-j)*(d2-j))
+                        if row[i][j] == rdata[-100]:
+                            print("PEAK 2")
                             print(row[i][j])
-                            flag = rdata[-1]
+                            flag = rdata[-200]
+                            for d1 in range(0,len(row)):
+                                    for d2 in range(0,len(row[d1])):
+                                        if (d1-i)*(d1-i)/25+ (d2-j)*(d2-j) < 10:
+                                            row[d1][d2]= test + test*0.1*(10- (d1-i)*(d1-i)/25+ (d2-j)*(d2-j))
                         if row[i][j] == rdata[-3]:
+                            print("PEAK 3")
                             print(row[i][j])
-                            flag = rdata[-3]
-                        if row[i][j] == rdata[-10]:
+                            flag = rdata[-300]
+                            for d1 in range(0,len(row)):
+                                    for d2 in range(0,len(row[d1])):
+                                        if (d1-i)*(d1-i)/25+ (d2-j)*(d2-j) < 10:
+                                            row[d1][d2]= test + test*0.1*(10- (d1-i)*(d1-i)/25+ (d2-j)*(d2-j))
+                        if row[i][j] == rdata[-4]:
+                            print("PEAK 4")
                             print(row[i][j])
-                            flag = rdata[-4]
-                        if row[i][j] == rdata[-25]:
+                            flag = rdata[-400]
+                            for d1 in range(0,len(row)):
+                                    for d2 in range(0,len(row[d1])):
+                                        if (d1-i)*(d1-i)/25+ (d2-j)*(d2-j) < 10:
+                                            row[d1][d2]= test + test*0.1*(10- (d1-i)*(d1-i)/25+ (d2-j)*(d2-j))
+                        if row[i][j] == rdata[-5]:
+                            print("PEAK 5")
                             print(row[i][j])
                             flag = rdata[-5]
-                       
-                        if flag > 0:
-                            print("okoek")
-                            # print(flag)
-                            try:
-                                atem = flag
-                                for d1 in range(0,len(row)):
+                            for d1 in range(0,len(row)):
                                     for d2 in range(0,len(row[d1])):
-                                        if (d1-i)*(d1-i)/16+ (d2-j)*(d2-j) < 10:
-                                            row[d1][d2]= test + test*0.1*(10- (d1-i)*(d1-i)/16+ (d2-j)*(d2-j))
-                                # row[i-6][j] = atem*1.3
-                                # row[i-5][j] = atem*1.3
-                                # row[i-4][j] = atem*1.3
-                                # row[i-3][j] = atem*1.3
-                                # row[i-2][j] = atem*1.3
-                                # row[i-1][j-1] = atem*1.3
-                                # row[i-1][j] = atem*1.3
-                                # row[i-1][j+1] = atem*1.3
-                                # row[i-1][j] = atem*1.3
-                                # row[i][j] = atem*1.3
-                                # row[i+1][j] = atem*1.3
-                                # row[i+1][j-1] = atem*1.3
-                                # row[i+1][j] = atem*1.3
-                                # row[i+1][j+1] = atem*1.3
-                                # row[i+2][j] = atem*1.3
-                                # row[i+3][j] = atem*1.3
-                                # row[i+4][j] = atem*1.3
-                                # row[i+5][j] = atem*1.3
-                                # row[i+6][j] = atem*1.3
-                            except:
-                                continue
+                                        if (d1-i)*(d1-i)/25+ (d2-j)*(d2-j) < 10:
+                                            row[d1][d2]= test + test*0.1*(10- (d1-i)*(d1-i)/25+ (d2-j)*(d2-j))
+                        if(flag > 0):
+                            print("_____________________________")
+                            print(rdata[-1])
+                            print(rdata[-100])
+                            print(rdata[-200])
+                            print(rdata[-300])
+                            print(rdata[-400])
+                            print("*******")
+                            print(test)
+                            print("_____________________________")
+
+
+                        # if flag > 0:
+                        #     print("okoek")
+                        #     # print(flag)
+                        #     try:
+                        #         atem = flag
+                        #         for d1 in range(0,len(row)):
+                        #             for d2 in range(0,len(row[d1])):
+                        #                 if (d1-i)*(d1-i)/16+ (d2-j)*(d2-j) < 10:
+                        #                     row[d1][d2]= test + test*0.1*(10- (d1-i)*(d1-i)/16+ (d2-j)*(d2-j))
+                        #         # row[i-6][j] = atem*1.3
+                        #         # row[i-5][j] = atem*1.3
+                        #         # row[i-4][j] = atem*1.3
+                        #         # row[i-3][j] = atem*1.3
+                        #         # row[i-2][j] = atem*1.3
+                        #         # row[i-1][j-1] = atem*1.3
+                        #         # row[i-1][j] = atem*1.3
+                        #         # row[i-1][j+1] = atem*1.3
+                        #         # row[i-1][j] = atem*1.3
+                        #         # row[i][j] = atem*1.3
+                        #         # row[i+1][j] = atem*1.3
+                        #         # row[i+1][j-1] = atem*1.3
+                        #         # row[i+1][j] = atem*1.3
+                        #         # row[i+1][j+1] = atem*1.3
+                        #         # row[i+2][j] = atem*1.3
+                        #         # row[i+3][j] = atem*1.3
+                        #         # row[i+4][j] = atem*1.3
+                        #         # row[i+5][j] = atem*1.3
+                        #         # row[i+6][j] = atem*1.3
+                        #     except:
+                        #         continue
                         # else:
                             # row[i][j] = 0
 
@@ -256,7 +293,7 @@ def main():
                 hmap.set_xlabel('Emission (mm)')
                 # plt.title('Heatmap/pp2/'+file+"-"+sheet+".png");
                 fig = hmap.get_figure()
-                fig.savefig('Heatmap/pp3/'+file+"-"+sheet+".png")
+                fig.savefig('Heatmap/pp4/'+file+"-"+sheet+".png")
                 
                 plt.clf()
 

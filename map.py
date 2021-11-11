@@ -170,14 +170,21 @@ def main():
                 print(len(row_sums))
 
 
-                plt.plot([i for i in range(0, len(column_sums))],column_sums, label = "Excitation (mm)")
-                plt.plot([i for i in range(0, len(row_sums))],row_sums,  label = "Emission (mm)")
+                plt.plot([i+200 for i in range(0, len(column_sums))],column_sums, label = "Excitation (mm)")
+                plt.plot([i+200 for i in range(0, len(row_sums))],row_sums,  label = "Emission (mm)")
                 plt.legend()
+
+                plt.et_xlim(200, 500)
+                plt.et_ylim(200, 500)
                 # continue
 
 
                 plt.savefig('Heatmap/distribute/'+file+"-"+sheet+".png")
                 plt.clf()
+
+
+
+                continue
 
                 data1 = rdata[3400:4600]
                 data2 = rdata[4800:7200]
